@@ -1,5 +1,5 @@
 class Tree():
-    def __init__(val, parent=None):
+    def __init__(self, val, parent=None):
         self.val = val
         self.size = 1
         self.left = None
@@ -7,7 +7,7 @@ class Tree():
         self.parent = parent
 
     def __eq__(self, other):
-        return self.val == other.val and self.right == other.right and self.left = other.left and self.parent = other.parent
+        return self.val == other.val and self.right == other.right and self.left == other.left and self.parent == other.parent
 
     def __ne__(self, other):
         return self.__eq__(other) == False
@@ -37,7 +37,7 @@ class Tree():
     def insert(self, val):
         self.size += 1
 
-        if val < self.val:
+        if val <= self.val:
             if self.left is None:
                 self.left = Tree(val, self)
             else:
@@ -46,20 +46,19 @@ class Tree():
             if self.right is None:
                 self.right = Tree(val, self)
             else:
-                return self.left.insert(val)
-            return None
-        # handle duplicate value scenario with splice?
+                return self.right.insert(val)
+        return None
 
-   def select(self, position):
-       if self.left:
-           left_sub_tree_size = self.left.size
-       else:
-           left_sub_tree_size = 0
-
-        if position == left_subtree_size + 1:
-            return tree.left.val
-        elif position < left_sub_tree_size + 1:
-            return self.left(position)
+    def select(self, position):
+        if self.left:
+            left_sub_tree_size = self.left.size
         else:
-            return self.right(position - left_sub_tree_size + 1)
-            
+            left_sub_tree_size = 0
+
+        left_tree_size = left_sub_tree_size + 1
+        if position == left_tree_size: 
+            return self.val
+        elif position < left_tree_size: 
+            return self.left.select(position)
+        else:
+            return self.right.select(position - left_sub_tree_size - 1)
