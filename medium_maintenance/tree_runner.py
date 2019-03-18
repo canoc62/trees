@@ -3,7 +3,15 @@ import time
 from trees.bst import Tree
 
 def main():
-    f = open("text/" + sys.argv[1])
+    try:
+        f = open("text/" + sys.argv[1])
+    except OSError as e:
+        print("OS error({0}): {1}".format(e.errno, e.strerror))
+        sys.exit()
+    except:
+        print("Usage: 'python tree_runner.py [name_of_text_file]'")
+        sys.exit()
+
     data = f.read().strip()
     nums = str.split(data, "\n")
     nums = [int(num) for num in nums]
