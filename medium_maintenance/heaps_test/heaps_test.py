@@ -34,16 +34,20 @@ class HeapTestCase(unittest.TestCase):
         deleted1 = self.heap1.delete(0)
         deleted2 = self.heap2.delete(4)
         deleted3 = self.heap3.delete(6)
+        heap4 = Heap([1, 2])
+        deleted4 = heap4.delete(0)
 
         self.assertEqual(deleted0, None, "Incorrect delete value returned.")
-        self.assertEqual(deleted1, None, "Incorrect delete value returned.")
-        self.assertEqual(deleted2, None, "Incorrect delete value returned.")
-        self.assertEqual(deleted3, None, "Incorrect delete value returned.")
+        self.assertEqual(deleted1, 1, "Incorrect delete value returned.")
+        self.assertEqual(deleted2, 2, "Incorrect delete value returned.")
+        self.assertEqual(deleted3, 4, "Incorrect delete value returned.")
+        self.assertEqual(deleted4, 2, "Incorrect delete value returned.")
 
         self.assertEqual(self.heap0.data, [], "Invalid heap after deletion.")
         self.assertEqual(self.heap1.data, [], "Invalid heap after deletion.")
         self.assertEqual(self.heap2.data, [11, 10, 5, 7, 3, 4, 1], "Invalid heap after deletion.")
         self.assertEqual(self.heap3.data, [22, 10, 7, -1, 1, 2], "Invalid heap after deletion.")
+        self.assertEqual(heap4.data, [1], "Invalid heap after deletion.")
 
 
     def test_extract(self):
@@ -53,9 +57,9 @@ class HeapTestCase(unittest.TestCase):
         extracted3 = self.heap3.extract()
 
         self.assertEqual(extracted0, None, "Incorrect extracted value returned.")
-        self.assertEqual(extracted1, None, "Incorrect extracted value returned.")
-        self.assertEqual(extracted2, None, "Incorrect extracted value returned.")
-        self.assertEqual(extracted3, None, "Incorrect extracted value returned.")
+        self.assertEqual(extracted1, 1, "Incorrect extracted value returned.")
+        self.assertEqual(extracted2, 11, "Incorrect extracted value returned.")
+        self.assertEqual(extracted3, 22, "Incorrect extracted value returned.")
 
         self.assertEqual(self.heap0.data, [], "Invalid heap after extraction.")
         self.assertEqual(self.heap1.data, [], "Invalid heap after extraction.")

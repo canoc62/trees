@@ -1,15 +1,17 @@
 from abc import ABC, abstractmethod
 
 class AbstractHeap(ABC):
-    def __init__(self, data=[]):
-        self.data = data
-        if len(self.data) > 1:
-            self.heapsort()
-        super().__init__()
+
+    def __len__(self):
+        return len(self.data)
 
     def heapsort(self):
         for i in range(len(self.data) - 1, -1, -1):
             self.heapify(i)
+
+    @abstractmethod
+    def bubble_up(self, parentIndex, currentIndex):
+        pass
 
     @abstractmethod
     def heapify(self, position):
@@ -40,6 +42,12 @@ class AbstractHeap(ABC):
         return (position - 1)//2
 
 class Heap(AbstractHeap):
+
+    def __init__(self, data=[]):
+        self.data = data
+        if len(self.data) > 1:
+            self.heapsort()
+
     def bubble_up(self, parentIndex, currentIndex):
         while parentIndex >= 0 and self.data[currentIndex] > self.data[parentIndex]:
             self.data[parentIndex], self.data[currentIndex] = self.data[currentIndex], self.data[parentIndex]
@@ -83,14 +91,33 @@ class Heap(AbstractHeap):
                 else:
                     self.heapify(position)
             else:
+                if position != lastIndex:
+                    self.data[position] = self.data[lastIndex]
                 self.data = self.data[:lastIndex]
+            return deleted
         else:
             return None
 
     def extract(self):
-        self.delete(0)
+        return self.delete(0)
+
+    def peek(self):
+        if len(self.data) < 1:
+            return None
+        return self.data[0]
 
 class MinHeap(Heap):
+    def __init__(self, data=[]):
+        self.data = data
+        if len(self.data) > 1:
+            self.heapsort()
+
+    def bubble_up(self, parentIndex, currentIndex):
+        while parentIndex >= 0 and self.data[currentIndex] < self.data[parentIndex]:
+            self.data[parentIndex], self.data[currentIndex] = self.data[currentIndex], self.data[parentIndex]
+            currentIndex = parentIndex
+            parentIndex = Heap.parent(currentIndex)
+
     def heapify(self, position):
         smallest = position
         left_position = Heap.left(position)
@@ -126,7 +153,10 @@ class MinHeap(Heap):
                     self.bubble_up(parent, position)
                 else:
                     self.heapify(position)
+                return deleted
             else:
+                if position != lastIndex:
+                    self.data[position] = self.data[lastIndex]
                 self.data = self.data[:lastIndex]
         else:
             return None
