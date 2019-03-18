@@ -40,4 +40,5 @@ def k_median_sum(nums):
     
     return sum, length_time
 
-main()
+if __name__ == '__main__':
+    main()
