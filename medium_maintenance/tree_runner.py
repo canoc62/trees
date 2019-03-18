@@ -4,9 +4,9 @@ from trees.bst import Tree
 
 def main():
     f = open("text/" + sys.argv[1])
-    data = f.read()
+    data = f.read().strip()
     nums = str.split(data, "\n")
-    nums = nums[0:len(nums)-1]
+    nums = [int(num) for num in nums]
 
     k_sum, runtime = k_median_sum(nums) 
     print("k median sum is: " + str(k_sum) + " and it took: " + str(runtime) + " s")
@@ -15,11 +15,11 @@ def main():
 def k_median_sum(nums):
     start_time = time.process_time()
     
-    root = Tree(int(nums[0]))
+    root = Tree(nums[0])
     sum = root.val 
 
     for num in nums[1:]:
-        root.insert(int(num))
+        root.insert(num)
         if root.size % 2 == 0:
             mid = root.size//2
         else:
